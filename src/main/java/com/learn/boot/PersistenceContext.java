@@ -35,7 +35,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef="connectEM", transactionManagerRef="connectTM")
+@EnableJpaRepositories(entityManagerFactoryRef="connectEM", transactionManagerRef="connectTM" , basePackages="com.learn")
 public class PersistenceContext {
     
     protected static final String PROPERTY_NAME_DATABASE_DRIVER             = "connect.db.driver";
@@ -67,7 +67,7 @@ public class PersistenceContext {
         dataSource.setJdbcUrl(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
         dataSource.setUsername(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
         dataSource.setPassword(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
-        dataSource.setConnectionTestQuery("SELECT 1");
+       // dataSource.setConnectionTestQuery("SELECT 1");
         dataSource.setMaximumPoolSize(Integer.parseInt(environment.getProperty(PROPERTY_NAME_DATABASE_MAX_CONNECTIONS)));
       
         return dataSource;

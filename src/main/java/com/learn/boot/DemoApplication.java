@@ -17,7 +17,7 @@ import db.migration.DatabaseMigrator;
 
 @SpringBootApplication
 @Configuration
-@ComponentScan(basePackages = {"com.learn"})
+@ComponentScan({"com.learn"})
 @EnableAutoConfiguration(exclude = {LiquibaseAutoConfiguration.class, HibernateJpaAutoConfiguration.class,DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class })
 @ContextConfiguration (classes = {PersistenceContext.class})
 public class DemoApplication {
