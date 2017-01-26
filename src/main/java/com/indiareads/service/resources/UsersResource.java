@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.indiareads.service.domain.UserEntity;
 import com.indiareads.service.model.ErrorCode;
 import com.indiareads.service.model.GenericFormResponse;
+import com.indiareads.service.model.LoginRequest;
+import com.indiareads.service.model.LoginResponse;
 import com.indiareads.service.model.SuccessCode;
 import com.indiareads.service.repo.UsersRepository;
 
@@ -86,6 +88,58 @@ public class UsersResource {
 		response.setSuccess(successList);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
+	}
+
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
+		UserEntity user=null;
+		LoginResponse loginResponse = new LoginResponse();
+		try{
+			user = usersRepository.findOneByEmailAddressOrMobileNumberAndPassword(loginRequest.getUsername(), loginRequest.getPassword(), Boolean.TRUE);    
+		}catch(Exception e){
+			String message = "Error encountered while fetching user from the system";
+			log.error(message, e);
+			loginResponse.setStatusCode(4048);
+			ErrorCode error = new ErrorCode("DB_FETCH_ERROR", message);
+			List<ErrorCode> errorsList = new ArrayList<>();
+			errorsList.add(error);
+			loginResponse.setErrors(errorsList);
+			return new ResponseEntity<>(loginResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if(user==null){
+			String message = "Invalid Login Credentials. Kindly try again with a valid one";
+			log.error(message);
+			loginResponse.setStatusCode(2048);
+			ErrorCode error = new ErrorCode("USER_NOT_FOUND", message);
+			List<ErrorCode> errorsList = new ArrayList<>();
+			errorsList.add(error);
+			loginResponse.setErrors(errorsList);
+			return new ResponseEntity<>(loginResponse, HttpStatus.BAD_REQUEST);
+		}
+
+		loginResponse = setAttributesInLoginResponse(user);
+		String message = "User successfully retrieved from the server";
+		loginResponse.setStatusCode(1002);
+		SuccessCode success = new SuccessCode("OK", message);
+		List<SuccessCode> successList = new ArrayList<>();
+		successList.add(success);
+		loginResponse.setSuccess(successList);
+
+		return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+
+	}
+
+
+	private LoginResponse setAttributesInLoginResponse(UserEntity user) {
+		LoginResponse loginResponse = new LoginResponse();
+		loginResponse.setFirstName(user.getFirstName());
+		loginResponse.setLastName(user.getLastName());
+		loginResponse.setEmailAddress(user.getEmailAddress());
+		loginResponse.setProfilePhotoUri(user.getProfilePhotoUri());
+		loginResponse.setMobileNumber(user.getMobileNumber());
+		loginResponse.setUserType(user.getType());
+		return loginResponse;
 	}
 
 }
