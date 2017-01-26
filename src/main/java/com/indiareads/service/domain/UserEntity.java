@@ -10,12 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-/*
- *  @version     1.0, 02-Jan-2017
- *  @author gaurav
- */
+import org.hibernate.validator.constraints.Email;
+
+import com.indiareads.service.util.RegexPattern;
+
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -32,10 +35,13 @@ public class UserEntity {
 	private String  lastName;
 
 	@NotNull
-	@Column(name = "email_address")
+	@Email(message = "Entered email address is not valid")
+	@Column(name = "email_address", unique = true)
 	private String emailAddress;
 
 	@NotNull
+	@Size(min = 10, max = 10, message = "Entered mobile number size should be 10 digits")
+	@Pattern(regexp = RegexPattern.ONLY_NUMBERS, message = "Mobile number should consist of only numbers")
 	@Column(name = "mobile_number", unique = true)
 	private String  mobileNumber;
 
