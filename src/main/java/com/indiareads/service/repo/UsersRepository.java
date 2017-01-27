@@ -6,8 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import com.indiareads.service.domain.UserEntity;
 
 public interface UsersRepository extends CrudRepository<UserEntity, Long> {
-
+    
 	UserEntity findByMobileNumber(String mobileNumber);
+	
+	//@Query(value="SELECT * FROM users where id = ", nativeQuery=true)
+	UserEntity findById(Long id);
 
 	@Query(value="SELECT * FROM users where mobile_number = ?1 OR email_address = ?2", nativeQuery=true)
 	UserEntity findByMobileNumberOrEmailAddress(String mobileNumber, String emailAddress);
