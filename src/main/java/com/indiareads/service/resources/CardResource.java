@@ -43,7 +43,7 @@ import com.indiareads.service.repo.UsersRepository;
 @RestController
 @RequestMapping(value = "/v1/cards")
 public class CardResource {
-    private static final Logger log = LoggerFactory.getLogger(UsersResource.class);
+    private static final Logger log = LoggerFactory.getLogger(CardResource.class);
 
     @Autowired
     private CardsRepository     cardsRepository;
@@ -148,6 +148,7 @@ public class CardResource {
             cardResponse.setPhotoUri(entity.getPhotoUri());
             cardResponse.setContent(entity.getContent());
             cardResponse.setPublished(entity.getIsPublished());
+            cardResponse.setCategoryId(entity.getCategoryId());
             cardResponse.setCreatedDate(entity.getCreatedDate());
             cardResponse.setUpdatedDate(entity.getUpdatedDate());
             cardResponseList.add(cardResponse);

@@ -52,6 +52,11 @@ public class CardEntity {
     private String  photoUri;
     
     @NotNull
+    @Column(name = "category_id")
+    private Long  categoryId;
+    
+    
+    @NotNull
     @Column(name = "is_published")
     private Boolean  isPublished;
     
@@ -62,6 +67,16 @@ public class CardEntity {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date    updatedDate;
+    
+    
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public Long getId() {
         return id;

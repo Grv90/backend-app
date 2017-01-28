@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class LoginResponse extends GenericFormResponse{
-
+    
+    @JsonProperty
+    private Long id;
+    
 	@JsonProperty
 	private String firstName;
 
@@ -30,8 +33,16 @@ public class LoginResponse extends GenericFormResponse{
 	public String getFirstName() {
 		return firstName;
 	}
+	
+	public Long getId() {
+        return id;
+    }
 
-	public void setFirstName(String firstName) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 

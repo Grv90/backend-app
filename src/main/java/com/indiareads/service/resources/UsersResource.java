@@ -163,6 +163,7 @@ public class UsersResource {
 
     private LoginResponse setAttributesInLoginResponse(UserEntity user) {
         LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setId(user.getId());
         loginResponse.setFirstName(user.getFirstName());
         loginResponse.setLastName(user.getLastName());
         loginResponse.setEmailAddress(user.getEmailAddress());
